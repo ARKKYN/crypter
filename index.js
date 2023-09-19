@@ -1,3 +1,12 @@
+let crypto;
+
+try {
+    crypto = require('node:crypto');
+  } catch (err) {
+    console.error('crypto support is disabled!');
+  }
+
+
 const algorithm = 'aes-256-gcm';
 const ivLength = 16;
 const tagLength = 16;
@@ -5,9 +14,9 @@ const defaultEncoding = 'hex';
 const defaultSaltLength = 64;
 const defaultPbkdf2Iterations = 100000;
 
-function Cryptr(secret, options) {
+function crypter(secret, options) {
     if (!secret || typeof secret !== 'string') {
-        throw new Error('Cryptr: secret must be a non-0-length string');
+        throw new Error('Crypter: secret must be a non-0-length string');
     }
 
     let encoding = defaultEncoding;
@@ -75,4 +84,4 @@ function Cryptr(secret, options) {
     };
 }
 
-module.exports = Cryptr;
+module.exports = crypter;

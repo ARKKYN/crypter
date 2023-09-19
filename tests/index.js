@@ -1,5 +1,5 @@
 const test = require('tape');
-const Cryptr = require('../');
+const Crypter = require('../');
 
 const testSecret = 'myTotalySecretKey';
 const testData = 'bacon';
@@ -7,7 +7,7 @@ const testData = 'bacon';
 test('works...', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret);
     const encryptedString = cryptr.encrypt(testData);
     const decryptedString = cryptr.decrypt(encryptedString);
 
@@ -20,7 +20,7 @@ test('works with custom encoding', (t) => {
     t.plan(encodings.length);
 
     encodings.forEach((encoding) => {
-        const cryptr = new Cryptr(testSecret, { encoding });
+        const cryptr = new Crypter(testSecret, { encoding });
         const encryptedString = cryptr.encrypt(testData);
         const decryptedString = cryptr.decrypt(encryptedString);
 
@@ -31,8 +31,8 @@ test('works with custom encoding', (t) => {
 test('custom encoding affects output length', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret, { encoding: 'base64' });
-    const cryptr2 = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret, { encoding: 'base64' });
+    const cryptr2 = new Crypter(testSecret);
     const encryptedString = cryptr.encrypt(testData);
     const encryptedString2 = cryptr2.encrypt(testData);
 
@@ -42,7 +42,7 @@ test('custom encoding affects output length', (t) => {
 test('works with custom pbkdf2Iterations', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret, { pbkdf2Iterations: 10000 });
+    const cryptr = new Crypter(testSecret, { pbkdf2Iterations: 10000 });
     const encryptedString = cryptr.encrypt(testData);
     const decryptedString = cryptr.decrypt(encryptedString);
 
@@ -52,8 +52,8 @@ test('works with custom pbkdf2Iterations', (t) => {
 test('custom pbkdf2Iterations affects speed', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret, { pbkdf2Iterations: 1000 });
-    const cryptr2 = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret, { pbkdf2Iterations: 1000 });
+    const cryptr2 = new Crypter(testSecret);
     const customStart = performance.now();
     for (let index = 0; index < 10; index++) {
         const encryptedString = cryptr.encrypt(testData + index);
@@ -77,7 +77,7 @@ test('custom pbkdf2Iterations affects speed', (t) => {
 test('works with custom saltLength', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret, { saltLength: 10 });
+    const cryptr = new Crypter(testSecret, { saltLength: 10 });
     const encryptedString = cryptr.encrypt(testData);
     const decryptedString = cryptr.decrypt(encryptedString);
 
@@ -88,8 +88,8 @@ test('custom saltLength affects output length', (t) => {
     t.plan(1);
 
     const customSaltLength = 30;
-    const cryptr = new Cryptr(testSecret, { saltLength: customSaltLength });
-    const cryptr2 = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret, { saltLength: customSaltLength });
+    const cryptr2 = new Crypter(testSecret);
     const encryptedString = cryptr.encrypt(testData);
     const encryptedString2 = cryptr2.encrypt(testData);
 
@@ -104,7 +104,7 @@ test('works with utf8 specific characters', (t) => {
     t.plan(1);
 
     const testString = 'ßáÇÖÑ 🥓';
-    const cryptr = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret);
     const encryptedString = cryptr.encrypt(testString);
     const decryptedString = cryptr.decrypt(encryptedString);
 
@@ -118,15 +118,15 @@ test('goes bang if bad secret', (t) => {
 
     for (let i = 0; i < badSecrets.length; i++) {
         t.throws(
-            () => new Cryptr(badSecrets[i]),
-            /Cryptr: secret must be a non-0-length string/,
+            () => new Crypter(badSecrets[i]),
+            "Cryptr: secret must be a non-0-length string",
             `throws on bad secret ${badSecrets[i]}`,
         );
     }
 });
 
 test('encrypt goes bang if value is null or undefined', (t) => {
-    const cryptr = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret);
     const badValues = [null, undefined];
 
     t.plan(badValues.length);
@@ -134,14 +134,14 @@ test('encrypt goes bang if value is null or undefined', (t) => {
     for (let i = 0; i < badValues.length; i++) {
         t.throws(
             () => cryptr.encrypt(badValues[i]),
-            /value must not be null or undefined/,
+            "value must not be null or undefined",
             `throws on value ${badValues[i]}`,
         );
     }
 });
 
 test('decrypt goes bang if value is null or undefined', (t) => {
-    const cryptr = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret);
     const badValues = [null, undefined];
 
     t.plan(badValues.length);
@@ -149,7 +149,7 @@ test('decrypt goes bang if value is null or undefined', (t) => {
     for (let i = 0; i < badValues.length; i++) {
         t.throws(
             () => cryptr.decrypt(badValues[i]),
-            /value must not be null or undefined/,
+            "value must not be null or undefined",
             `throws on value ${badValues[i]}`,
         );
     }
@@ -158,7 +158,7 @@ test('decrypt goes bang if value is null or undefined', (t) => {
 test('decrypt goes bang if value has been tampered with', (t) => {
     t.plan(1);
 
-    const cryptr = new Cryptr(testSecret);
+    const cryptr = new Crypter(testSecret);
 
     const encryptedString = cryptr.encrypt(testData);
 
@@ -174,7 +174,7 @@ test('decrypt goes bang if value has been tampered with', (t) => {
 
     t.throws(
         () => cryptr.decrypt(modifiedValue),
-        /Unsupported state or unable to authenticate data/,
+        "Unsupported state or unable to authenticate data",
         'throws on tampered data',
     );
 });

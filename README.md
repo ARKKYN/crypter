@@ -1,6 +1,6 @@
-# cryptr
+# crypter
 
-cryptr is a simple `aes-256-gcm` encrypt and decrypt module for node.js
+crypter is a simple `aes-256-gcm` encrypt and decrypt module for node.js
 
 It is for doing simple encryption of values UTF-8 strings that need to be decrypted at a later time.
 
@@ -8,7 +8,7 @@ If you require anything more than that you probably want to use something more a
 
 The Cryptr constructor takes 1 required argument, and an optional options object.
 
-`Cryptr(secret[, options])`
+`Crypter(secret[, options])`
 
 -   secret: `<string>`
 -   options: `<Object>`
@@ -29,11 +29,11 @@ Passwords should be a one way hash. Use [bcrypt](https://npmjs.org/package/bcryp
 ## Usage
 
 ```javascript
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('myTotallySecretKey');
+const Crypter = require('crypter');
+const crypter = new Crypter('myTotallySecretKey');
 
-const encryptedString = cryptr.encrypt('bacon');
-const decryptedString = cryptr.decrypt(encryptedString);
+const encryptedString = crypter.encrypt('bacon');
+const decryptedString = crypter.decrypt(encryptedString);
 
 console.log(encryptedString); // 2a3260f5ac4754b8ee3021ad413ddbc11f04138d01fe0c5889a0dd7b4a97e342a4f43bb43f3c83033626a76f7ace2479705ec7579e4c151f2e2196455be09b29bfc9055f82cdc92a1fe735825af1f75cfb9c94ad765c06a8abe9668fca5c42d45a7ec233f0
 console.log(decryptedString); // bacon
@@ -42,8 +42,8 @@ console.log(decryptedString); // bacon
 #### With Options
 
 ```javascript
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr('myTotallySecretKey', { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 10 });
+const Crypter = require('cryptr');
+const crypter = new Crypter('myTotallySecretKey', { encoding: 'base64', pbkdf2Iterations: 10000, saltLength: 10 });
 
 const encryptedString = cryptr.encrypt('bacon');
 const decryptedString = cryptr.decrypt(encryptedString);
