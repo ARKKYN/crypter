@@ -1,6 +1,6 @@
 {
   "name": "@devmakk/crypter",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "crypter is a simple `aes-256-gcm` encrypt and decrypt module for node.js",
   "main": "index.js",
   "directories": {

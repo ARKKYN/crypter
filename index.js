@@ -1,11 +1,4 @@
-let crypto;
-
-try {
-    crypto = require('crypto');
-  } catch (err) {
-    console.error('crypto support is disabled!');
-  }
-
+const crypto = require('crypto');
 
 const algorithm = 'aes-256-gcm';
 const ivLength = 16;
